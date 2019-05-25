@@ -1608,7 +1608,7 @@ export default class Client4 {
         return this.doPostActionWithCookie(postId, actionId, '', selectedOption);
     };
 
-    doPostActionWithCookie = async (postId, actionId, actionCookie, selectedOption = '') => {
+    doPostActionWithCookie = async (postId, actionId, teamId, actionCookie, selectedOption = '') => {
         if (selectedOption) {
             this.trackEvent('api', 'api_interactive_messages_menu_selected');
         } else {
@@ -1617,6 +1617,7 @@ export default class Client4 {
 
         const msg = {
             selected_option: selectedOption,
+            teamId,
         };
         if (actionCookie !== '') {
             msg.cookie = actionCookie;

@@ -12,6 +12,7 @@ import {getCustomEmojisByName as selectCustomEmojisByName} from 'selectors/entit
 import {getConfig} from 'selectors/entities/general';
 import * as Selectors from 'selectors/entities/posts';
 import {getCurrentUserId, getUsersByUsername} from 'selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getUserIdFromChannelName} from 'utils/channel_utils';
 import {parseNeededCustomEmojisFromText} from 'utils/emoji_utils';
@@ -984,8 +985,9 @@ export function doPostAction(postId, actionId, selectedOption = '') {
 export function doPostActionWithCookie(postId, actionId, actionCookie, selectedOption = '') {
     return async (dispatch, getState) => {
         let data;
+        const teamId = getCurrentTeamId(getState());
         try {
-            data = await Client4.doPostActionWithCookie(postId, actionId, actionCookie, selectedOption);
+            data = await Client4.doPostActionWithCookie(postId, actionId, teamId, actionCookie, selectedOption);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
             dispatch(logError(error));
